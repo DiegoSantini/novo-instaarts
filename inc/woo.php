@@ -7,12 +7,28 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 add_action( 'woocommerce_before_calculate_totals', 'iap_custom_price' );
 function iap_custom_price( $cart_object ) {
-    $custom_price = 10; // This will be your custome price  
+      //$custom_price = 10; // This will be your custome price  
     foreach ( $cart_object->cart_contents as $key => $value ) {
 		if (isset($value['preco']))
             $value['data']->set_price($value['preco']);
-            $value['data']->set_width($value['x'] + 15);
-            $value['data']->set_height($value['y'] + 15);
+            $value['data']->set_width($value['x']+15);
+            $value['data']->set_height($value['y']+15);
+            // $value['data']->set_width($value['x']+20);
+            // $value['data']->set_height($value['y']+20);
+            // $value['data']->set_width($value['x']+25);
+            // $value['data']->set_height($value['y']+25);
+            // $value['data']->set_width($value['x']+30);
+            // $value['data']->set_height($value['y']+30);
+            // $value['data']->set_width($value['x']);
+            // $value['data']->set_height($value['y']);
+            
+            // $value['data']->set_width($value['x']+10);
+            // $value['data']->set_height($value['y']+10);
+            //Testes
+            // $value['data']->set_width($value['x']+5);
+            // $value['data']->set_height($value['y']+5);
+            //$value['data']->set_width($value['x']);
+            //$value['data']->set_height($value['y']);
     }
 }
 
@@ -179,4 +195,12 @@ function iap_woo_meta_produto_ordem($item_id, $values) {
         wc_add_order_item_meta($item_id,'_ImagemEditada',$values['imagemEditada']);
     }
 
+}
+
+add_filter('woocommerce_cart_item_thumbnail', 'display_custom_item_image', 3, 3);
+function display_custom_item_image($product_image, $cart_item, $cart_item_key) {
+    if(isset($cart_item['imagem'])) {
+        return '<img width="300" height="300" src="' . esc_url($cart_item['imagem']) . '" class="attachment-woocommerce_thumbnail size-woocommerce_thumbnail" alt="">';
+    }
+    return $product_image;
 }
